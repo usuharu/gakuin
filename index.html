@@ -119,8 +119,9 @@
       border-bottom:1px solid rgba(15,23,42,0.04);
     }
     .exam-controls{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
-    .exam-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:8px;overflow:hidden}
-    .exam-table th,.exam-table td{padding:10px;border-bottom:1px solid rgba(15,23,42,0.06);text-align:left}
+  /* テーブルは内容に合わせて幅を決める（折返しを防ぎ、必要なら横スクロール） */
+  .exam-table{width:auto;table-layout:auto;border-collapse:collapse;background:var(--card);border-radius:8px}
+  .exam-table th,.exam-table td{padding:10px;border-bottom:1px solid rgba(15,23,42,0.06);text-align:left;white-space:nowrap}
     .exam-table thead th{background:#f3f6fb;font-weight:700}
     .exam-note{color:var(--muted);font-size:0.9rem;margin-top:8px}
   </style>
@@ -143,7 +144,7 @@
         <h3 id="calendar-title">予定表</h3>
         <!-- カレンダー埋め込み -->
         <div id="calendar-embed" style="flex:1;margin-top:12px;border-radius:8px;background:linear-gradient(180deg,#fbfbff,#f5f7fb);overflow:hidden;">
-          <iframe title="学校カレンダー" src="https://calendar.google.com/calendar/embed?cid=MmIxN2EzYWYwYTcwZDJhNDE5ZDBiNzM2MzVmZjQzZTA2NDIxYjlhMGYwYzFhOTQ4Y2I4Zjg2NWM5NGJkM2FjOEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&amp;ctz=Asia%2FTokyo" style="border:0" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+        <iframe src="https://calendar.google.com/calendar/embed?src=2b17a3af0a70d2a419d0b73635ff43e06421b9a0f0c1a948cb8f865c94bd3ac8%40group.calendar.google.com&ctz=Asia%2FTokyo" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
         </div>
       </div>
 
