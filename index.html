@@ -107,12 +107,28 @@
     @media (max-width:900px){
       .top-area{grid-template-columns:1fr}
     }
+    /* 全幅セクション（コンテナ外へ横いっぱいに広げる） */
+    .full-width-section{
+      width:100vw;
+      margin-left:calc(50% - 50vw);
+      margin-right:calc(50% - 50vw);
+      background:linear-gradient(180deg,#ffffff,#fbfdff);
+      padding:20px 24px;
+      box-shadow:0 1px 2px rgba(16,24,40,0.04);
+      border-top:1px solid rgba(15,23,42,0.04);
+      border-bottom:1px solid rgba(15,23,42,0.04);
+    }
+    .exam-controls{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+    .exam-table{width:100%;border-collapse:collapse;background:var(--card);border-radius:8px;overflow:hidden}
+    .exam-table th,.exam-table td{padding:10px;border-bottom:1px solid rgba(15,23,42,0.06);text-align:left}
+    .exam-table thead th{background:#f3f6fb;font-weight:700}
+    .exam-note{color:var(--muted);font-size:0.9rem;margin-top:8px}
   </style>
 </head>
 <body>
   <header>
     <div>
-      <h1>学校ポータル</h1>
+      <h1>学習支援</h1>
       <div class="sub">クイックアクセスメニュー</div>
     </div>
     <nav aria-label="ユーザーメニュー">
@@ -125,18 +141,16 @@
     <section class="top-area" aria-label="予定表と重要情報">
       <div class="card calendar" aria-labelledby="calendar-title">
         <h3 id="calendar-title">予定表</h3>
-        <div class="small muted">Google カレンダーの埋め込みは後でここに配置されます。</div>
-        <!-- カレンダー埋め込み用のプレースホルダ -->
-        <div id="calendar-embed" style="flex:1;margin-top:12px;border-radius:8px;background:linear-gradient(180deg,#fbfbff,#f5f7fb);display:flex;align-items:center;justify-content:center;">
-          <div class="muted">カレンダーがここに表示されます（埋め込み待ち）</div>
-          a
+        <!-- カレンダー埋め込み -->
+        <div id="calendar-embed" style="flex:1;margin-top:12px;border-radius:8px;background:linear-gradient(180deg,#fbfbff,#f5f7fb);overflow:hidden;">
+          <iframe title="学校カレンダー" src="https://calendar.google.com/calendar/embed?cid=MmIxN2EzYWYwYTcwZDJhNDE5ZDBiNzM2MzVmZjQzZTA2NDIxYjlhMGYwYzFhOTQ4Y2I4Zjg2NWM5NGJkM2FjOEBncm91cC5jYWxlbmRhci5nb29nbGUuY29t&amp;ctz=Asia%2FTokyo" style="border:0" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
         </div>
       </div>
 
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div class="card" aria-labelledby="assign-title">
-          <h3 id="assign-title">直近の課題</h3>
-          <div class="small muted">提出期限の近い順に表示</div>
+          <h3 id="assign-title">直近の予定</h3>
+          <div class="small muted">日付の近い順に表示</div>
           <ul id="assignments" class="list" style="margin-top:10px">
             <!-- 読み込み中（スクリプトで差し替えられます） -->
             <li class="list-item"><div class="small muted">読み込み中...</div></li>
@@ -147,11 +161,30 @@
           <h3 id="news-title">お知らせ</h3>
           <div class="small muted">重要なお知らせを確認してください</div>
           <ul id="announcements" class="list" style="margin-top:10px">
-            <li class="list-item"><div><strong>運動会の日程発表</strong><div class="small muted">詳細は後日配布されます</div></div></li>
-            <li class="list-item"><div><strong>図書館の利用時間変更</strong><div class="small muted">来週より平日 9:00-18:00</div></div></li>
-            <li class="list-item"><div><strong>定期試験の範囲公開</strong><div class="small muted">マイページから確認してください</div></div></li>
           </ul>
         </div>
+      </div>
+    </section>
+
+    <!-- 試験予定（ページ幅を使って表示） -->
+    <section class="full-width-section" aria-labelledby="exam-title">
+      <div style="max-width:1100px;margin:0 auto;">
+        <h1>試験情報</h1>
+        <h2 id="exam-title" style="margin-top:0;margin-bottom:6px">1学期期末考査 <span style="color:#dc2626;font-size:0.85rem;margin-left:8px">重要!</span></h2>
+        <div class="exam-controls">
+          <div class="small muted">この表は Google スプレッドシートの公開CSVから自動で読み込みます。</div>
+        </div>
+        <div style="overflow:auto">
+          <table id="exam-table" class="exam-table" aria-describedby="exam-desc">
+            <thead>
+              <tr><th>教科</th><th>範囲</th><th>日時</th></tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="3" class="muted small">データがありません。公開された Google スプレッドシートから読み込まれます。</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="exam-desc" class="exam-note">CSVの1行目はヘッダとして扱います。日付は表示のみ（ソートやフォーマットは追加実装可能）。</div>
       </div>
     </section>
 
@@ -159,22 +192,24 @@
       <div class="grid" role="list">
         <!-- 3列×5行 = 15個のボタン。id属性を編集して href を割り当ててください -->
         <div class="waseda" style="grid-column:1 / -1; font-size:0.9rem; color:var(--muted); margin-top:8px;"><h1>早稲田大学 各種サービス</h1></div>
-        <a id="btn-101" class="button" href="#link1"><span class="label">Waseda Moodle</span><span class="hint"></span></a>
-        <a id="btn-102" class="button" href="#link1"><span class="label">MyWaseda</span><span class="hint"></span></a>
+        <a id="btn-101" class="button" href="https://wsdmoodle.waseda.jp"><span class="label">Waseda Moodle</span><span class="hint"></span></a>
+        <a id="btn-102" class="button" href="https://my.waseda.jp"><span class="label">MyWaseda</span><span class="hint"></span></a>
+        <div class="waseda" style="grid-column:1 / -1; font-size:0.9rem; color:var(--muted); margin-top:8px;"><h1>有志による学習支援</h1></div>
+        <a id="btn-201" class="button" href="https://anaberu.f5.si/notes/duo3.0/"><span class="label">AnabeRu</span><span class="hint"></span></a>
         <div class="subject" style="grid-column:1 / -1; font-size:0.9rem; color:var(--muted); margin-top:8px;"><h1>NotebookLM</h1></div>
         <!-- 上の繰り返しはテンプレート表記です。実際のファイルにはプレースホルダとして個別に配置します -->
         <a id="btn-1" class="button" href="#link1"><span class="label">現代の国語</span><span class="hint"></span></a>
         <a id="btn-2" class="button" href="#link2"><span class="label">言語文化</span><span class="hint"></span></a>
         <a id="btn-3" class="button" href="#link3"><span class="label">数学I</span><span class="hint"></span></a>
-        <a id="btn-4" class="button" href="#link4"><span class="label">数学A</span><span class="hint"></span></a>
-        <a id="btn-5" class="button" href="#link5"><span class="label">英語コミュニケーションI(a)</span><span class="hint"></span></a>
+        <a id="btn-4" class="button" href="https://notebooklm.google.com/notebook/defdace8-4239-4c6e-901e-782860d5a995"><span class="label">数学A</span><span class="hint"></span></a>
+        <a id="btn-5" class="button" href="./communication_I_a.html"><span class="label">英語コミュニケーションI(a)</span><span class="hint"></span></a>
         <a id="btn-6" class="button" href="#link6"><span class="label">論理・表現I</span><span class="hint"></span></a>
         <a id="btn-7" class="button" href="#link7"><span class="label">化学基礎</span><span class="hint"></span></a>
-        <a id="btn-8" class="button" href="#link8"><span class="label">物理基礎</span><span class="hint"></span></a>
-        <a id="btn-9" class="button" href="#link9"><span class="label">公共</span><span class="hint"></span></a>
+        <a id="btn-8" class="button" href="https://notebooklm.google.com/notebook/b989c8d5-445c-480f-8575-2ea48a98a499"><span class="label">物理基礎</span><span class="hint"></span></a>
+        <a id="btn-9" class="button" href="https://notebooklm.google.com/notebook/97933d54-078f-439c-91e3-2bdc106a3415"><span class="label">公共</span><span class="hint"></span></a>
         <a id="btn-10" class="button" href="#link10"><span class="label">フランス語I</span><span class="hint"></span></a>
         <a id="btn-11" class="button" href="#link11"><span class="label">保健</span><span class="hint"></span></a>
-        <a id="btn-12" class="button" href="#link12"><span class="label">家庭基礎</span><span class="hint"></span></a>
+        <a id="btn-12" class="button" href="https://notebooklm.google.com/notebook/16c8a6fd-d8e5-41ff-8eea-86118e3d5410"><span class="label">家庭基礎</span><span class="hint"></span></a>
         <a id="btn-13" class="button" href="#link13"><span class="label">情報I</span><span class="hint"></span></a>
       </div>
     </section>
@@ -185,6 +220,30 @@
   </footer>
 
   <script>
+    // 汎用: CSVパーサとエスケープ関数をグローバルに定義（他のスコープからも利用可能にする）
+    function parseCSV(text){
+      const rows = [];
+      let current = [];
+      let cur = '';
+      let inQuotes = false;
+      for(let i=0;i<text.length;i++){
+        const ch = text[i];
+        const next = text[i+1];
+        if(ch === '"'){
+          if(inQuotes && next === '"'){ cur += '"'; i++; } else { inQuotes = !inQuotes; }
+          continue;
+        }
+        if(ch === ',' && !inQuotes){ current.push(cur); cur = ''; continue; }
+        if((ch === '\n' || ch === '\r') && !inQuotes){
+          if(ch === '\r' && next === '\n'){ /* skip pair */ }
+          current.push(cur); cur = ''; if(current.length>1 || current[0] !== '') rows.push(current); current = []; continue;
+        }
+        cur += ch;
+      }
+      if(cur !== '' || current.length>0){ current.push(cur); rows.push(current); }
+      return rows;
+    }
+    function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
     // 使い方: 下の links オブジェクトに各ボタンの URL を割り当てると自動で href に設定されます。
     // 例: links['btn-1'] = '/attendance.html'
     (function(){
@@ -250,7 +309,7 @@
           const due = escapeHtml(it.due || '期限なし');
           const href = it.href || '#';
           // 科目がある場合は科目を先に表示（例: 科目 ・ 提出：日付）
-          const meta = subject ? `${subject} ・ 提出：${due}` : `提出：${due}`;
+          const meta = subject ? `${subject} ・ 日付：${due}` : `日付：${due}`;
           li.innerHTML = `<div><a href="${href}">${title}</a><div class="small muted">${meta}</div></div>`;
           aRoot.appendChild(li);
         });
@@ -285,6 +344,45 @@
         }
         // フェッチできない場合はサンプルを表示
         renderAssignments(sample);
+      })();
+    })();
+
+    // 試験予定の CSV 読み込み / 貼り付け / クリア機能
+    (function(){
+  // ここに公開CSVのURLを入れるとページ読み込み時に自動で読み込みます
+  // 例: https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<GID>
+  const SHEET_EXAM_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJEOOoUJ8G7tb5smJ0ec807cWlBKxR87qNmjmzcNwbQRnHdyYNjYABBNygW7WUHJBaQHwctKgALyrq/pub?output=csv';
+
+  const table = document.getElementById('exam-table');
+
+      function populateExamTable(rows){
+        const tbody = table.querySelector('tbody');
+        tbody.innerHTML = '';
+        if(!rows || rows.length === 0){
+          tbody.innerHTML = '<tr><td colspan="3" class="muted small">データがありません。公開された Google スプレッドシートから読み込まれます。</td></tr>';
+          return;
+        }
+        rows.forEach(r => {
+          const tr = document.createElement('tr');
+          const cols = [r[0]||'', r[1]||'', r[2]||''];
+          tr.innerHTML = `<td>${escapeHtml(cols[0])}</td><td>${escapeHtml(cols[1])}</td><td>${escapeHtml(cols[2])}</td>`;
+          tbody.appendChild(tr);
+        });
+      }
+
+      // ページ読み込み時に公開CSVがあれば自動でフェッチして表示
+      (async function(){
+        if(SHEET_EXAM_CSV_URL){
+          try{
+            const res = await fetch(SHEET_EXAM_CSV_URL);
+            if(res.ok){
+              const text = await res.text();
+              const rows = parseCSV(text);
+              const data = rows.slice(1);
+              if(data && data.length) populateExamTable(data);
+            }
+          }catch(err){ console.warn('Exam sheet fetch failed', err); }
+        }
       })();
     })();
   </script>
