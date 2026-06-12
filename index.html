@@ -119,9 +119,16 @@
       border-bottom:1px solid rgba(15,23,42,0.04);
     }
     .exam-controls{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
-  /* テーブルは内容に合わせて幅を決める（折返しを防ぎ、必要なら横スクロール） */
-  .exam-table{width:auto;table-layout:auto;border-collapse:collapse;background:var(--card);border-radius:8px}
-  .exam-table th,.exam-table td{padding:10px;border-bottom:1px solid rgba(15,23,42,0.06);text-align:left;white-space:nowrap}
+    /* テーブルは内容に合わせて幅を決める（必要なら横スクロール） */
+    .exam-table{width:auto;table-layout:auto;border-collapse:collapse;background:var(--card);border-radius:8px}
+    .exam-table th,.exam-table td{padding:10px;border-bottom:1px solid rgba(15,23,42,0.06);text-align:left;white-space:nowrap}
+    /* 範囲（2列目）は折返しを許可し、最大幅を指定する */
+    .exam-table th:nth-child(2), .exam-table td:nth-child(2){
+      max-width:36ch; /* 必要に応じて調整 */
+      white-space:normal;
+      overflow-wrap:break-word;
+      word-break:break-word;
+    }
     .exam-table thead th{background:#f3f6fb;font-weight:700}
     .exam-note{color:var(--muted);font-size:0.9rem;margin-top:8px}
   </style>
