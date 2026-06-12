@@ -246,10 +246,12 @@
         filtered.forEach(it=>{
           const li = document.createElement('li'); li.className='list-item';
           const title = escapeHtml(it.title);
+          const subject = it.subject ? escapeHtml(it.subject) : null;
           const due = escapeHtml(it.due || '期限なし');
           const href = it.href || '#';
-          // 優先度は表示しない
-          li.innerHTML = `<div><a href="${href}">${title}</a><div class="small muted">提出：${due}</div></div>`;
+          // 科目がある場合は科目を先に表示（例: 科目 ・ 提出：日付）
+          const meta = subject ? `${subject} ・ 提出：${due}` : `提出：${due}`;
+          li.innerHTML = `<div><a href="${href}">${title}</a><div class="small muted">${meta}</div></div>`;
           aRoot.appendChild(li);
         });
       }
@@ -269,11 +271,11 @@
         }catch(err){ console.warn('Sheet fetch error', err); return null; }
       }
 
-      // 初期サンプル（フォールバック）
+      // 初期サンプル（フォールバック） - subject を含める
       const sample = [
-        {title:'レポート：現代の国語', due:'2026-06-15', href:'#'},
-        {title:'演習課題：数学I', due:'2026-06-18', href:'#'},
-        {title:'実験レポート：化学基礎', due:'2026-06-20', href:'#'},
+        {title:'レポート：現代の国語', subject:'国語', due:'2026-06-15', href:'#'},
+        {title:'演習課題：数学I', subject:'数学', due:'2026-06-18', href:'#'},
+        {title:'実験レポート：化学基礎', subject:'化学', due:'2026-06-20', href:'#'},
       ];
 
       (async function(){
