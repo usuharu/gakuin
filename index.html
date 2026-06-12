@@ -138,10 +138,8 @@
           <h3 id="assign-title">直近の課題</h3>
           <div class="small muted">提出期限の近い順に表示</div>
           <ul id="assignments" class="list" style="margin-top:10px">
-            <!-- JSで差し替え可能。デフォルトのサンプル -->
-            <li class="list-item"><div><a href="#">レポート：現代の国語</a><div class="small muted">提出：2026-06-15</div></div><div class="small muted">優先度: 高</div></li>
-            <li class="list-item"><div><a href="#">演習課題：数学I</a><div class="small muted">提出：2026-06-18</div></div><div class="small muted">優先度: 中</div></li>
-            <li class="list-item"><div><a href="#">実験レポート：化学基礎</a><div class="small muted">提出：2026-06-20</div></div><div class="small muted">優先度: 低</div></li>
+            <!-- 読み込み中（スクリプトで差し替えられます） -->
+            <li class="list-item"><div class="small muted">読み込み中...</div></li>
           </ul>
         </div>
 
@@ -239,12 +237,19 @@
           aRoot.innerHTML = '<li class="list-item"><div class="muted">課題が見つかりません</div></li>';
           return;
         }
-        items.forEach(it=>{
+        // タイトルが空白の行は表示しない
+        const filtered = items.filter(it => it && it.title && String(it.title).trim() !== '');
+        if(filtered.length === 0){
+          aRoot.innerHTML = '<li class="list-item"><div class="muted">課題が見つかりません</div></li>';
+          return;
+        }
+        filtered.forEach(it=>{
           const li = document.createElement('li'); li.className='list-item';
-          const title = escapeHtml(it.title || '（無題）');
+          const title = escapeHtml(it.title);
           const due = escapeHtml(it.due || '期限なし');
           const href = it.href || '#';
-          li.innerHTML = `<div><a href="${href}">${title}</a><div class="small muted">提出：${due}</div></div><div class="small muted">優先度: 中</div>`;
+          // 優先度は表示しない
+          li.innerHTML = `<div><a href="${href}">${title}</a><div class="small muted">提出：${due}</div></div>`;
           aRoot.appendChild(li);
         });
       }
