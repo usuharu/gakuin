@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>学習支援</title>
+  <style>
+    :root{
+      --bg:#f7f9fc;
+      --card:#ffffff;
+      --accent:#2563eb;
+      --muted:#6b7280;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+      background:var(--bg);
+      color:#111827;
+      display:flex;
+      min-height:100vh;
+      flex-direction:column;
+    }
+    header{
+      background:linear-gradient(90deg,#fff 0%, #f1f5f9 100%);
+      border-bottom:1px solid #e6eef9;
+      padding:12px 20px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    header h1{margin:0;font-size:1.125rem}
+    header .sub{color:var(--muted);font-size:0.9rem}
+
+    main{
+      flex:1 0 auto;
+      padding:24px;
+      max-width:1100px;
+      margin:0 auto;
+      width:100%;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+    }
+    /* 3列 x 5行 のボタン配置（合計15個） */
+    .grid a.button{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px 12px;
+      background:var(--card);
+      border-radius:8px;
+      text-decoration:none;
+      color:inherit;
+      box-shadow:0 1px 2px rgba(16,24,40,0.04), 0 1px 0 rgba(16,24,40,0.02) inset;
+      border:1px solid rgba(15,23,42,0.04);
+      font-weight:600;
+      font-size:1rem;
+      min-height:64px;
+      transition:transform .08s ease, box-shadow .08s ease;
+    }
+    .grid a.button:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(37,99,235,0.12)}
+    .grid a.button:active{transform:translateY(-1px)}
+    .grid a.button .label{display:block}
+    .grid a.button .hint{display:block;color:var(--muted);font-weight:500;font-size:0.85rem}
+
+    footer{
+      border-top:1px solid #e6eef9;
+      padding:12px 20px;
+      background:#fff;
+      color:var(--muted);
+      text-align:center;
+      font-size:0.9rem;
+    }
+
+    /* レスポンシブ */
+    @media (max-width:900px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:520px){
+      .grid{grid-template-columns:repeat(1,1fr)}
+    }
+    /* 上部の予定表 / 課題 / お知らせ用スタイル */
+    .top-area{
+      display:grid;
+      grid-template-columns:2fr 1fr;
+      gap:16px;
+      margin-bottom:20px;
+    }
+    .card{
+      background:var(--card);
+      border-radius:10px;
+      padding:14px;
+      box-shadow:0 1px 2px rgba(16,24,40,0.04);
+      border:1px solid rgba(15,23,42,0.04);
+    }
+    .calendar{min-height:300px;display:flex;flex-direction:column}
+    .card h3{margin:0 0 8px 0;font-size:1rem}
+    .list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+    .list-item{display:flex;justify-content:space-between;align-items:flex-start;padding:8px;border-radius:6px}
+    .list-item a{color:var(--accent);text-decoration:none;font-weight:600}
+    .muted{color:var(--muted);font-size:0.9rem}
+    .small{font-size:0.85rem;color:var(--muted)}
+    @media (max-width:900px){
+      .top-area{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>学校ポータル</h1>
+      <div class="sub">クイックアクセスメニュー</div>
+    </div>
+    <nav aria-label="ユーザーメニュー">
+      <!-- 右上に追加したいリンクがあればここに書いてください -->
+    </nav>
+  </header>
+
+  <main>
+    <!-- 上部: 予定表（左）、右側に課題リストとお知らせ -->
+    <section class="top-area" aria-label="予定表と重要情報">
+      <div class="card calendar" aria-labelledby="calendar-title">
+        <h3 id="calendar-title">予定表</h3>
+        <div class="small muted">Google カレンダーの埋め込みは後でここに配置されます。</div>
+        <!-- カレンダー埋め込み用のプレースホルダ -->
+        <div id="calendar-embed" style="flex:1;margin-top:12px;border-radius:8px;background:linear-gradient(180deg,#fbfbff,#f5f7fb);display:flex;align-items:center;justify-content:center;">
+          <div class="muted">カレンダーがここに表示されます（埋め込み待ち）</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="card" aria-labelledby="assign-title">
+          <h3 id="assign-title">直近の課題</h3>
+          <div class="small muted">提出期限の近い順に表示</div>
+          <ul id="assignments" class="list" style="margin-top:10px">
+            <!-- JSで差し替え可能。デフォルトのサンプル -->
+            <li class="list-item"><div><a href="#">レポート：現代の国語</a><div class="small muted">提出：2026-06-15</div></div><div class="small muted">優先度: 高</div></li>
+            <li class="list-item"><div><a href="#">演習課題：数学I</a><div class="small muted">提出：2026-06-18</div></div><div class="small muted">優先度: 中</div></li>
+            <li class="list-item"><div><a href="#">実験レポート：化学基礎</a><div class="small muted">提出：2026-06-20</div></div><div class="small muted">優先度: 低</div></li>
+          </ul>
+        </div>
+
+        <div class="card" aria-labelledby="news-title">
+          <h3 id="news-title">お知らせ</h3>
+          <div class="small muted">重要なお知らせを確認してください</div>
+          <ul id="announcements" class="list" style="margin-top:10px">
+            <li class="list-item"><div><strong>運動会の日程発表</strong><div class="small muted">詳細は後日配布されます</div></div></li>
+            <li class="list-item"><div><strong>図書館の利用時間変更</strong><div class="small muted">来週より平日 9:00-18:00</div></div></li>
+            <li class="list-item"><div><strong>定期試験の範囲公開</strong><div class="small muted">マイページから確認してください</div></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="grid-title">
+      <div class="grid" role="list">
+        <!-- 3列×5行 = 15個のボタン。id属性を編集して href を割り当ててください -->
+        <div class="waseda" style="grid-column:1 / -1; font-size:0.9rem; color:var(--muted); margin-top:8px;"><h1>早稲田大学 各種サービス</h1></div>
+        <a id="btn-101" class="button" href="#link1"><span class="label">Waseda Moodle</span><span class="hint"></span></a>
+        <a id="btn-102" class="button" href="#link1"><span class="label">MyWaseda</span><span class="hint"></span></a>
+        <div class="subject" style="grid-column:1 / -1; font-size:0.9rem; color:var(--muted); margin-top:8px;"><h1>NotebookLM</h1></div>
+        <!-- 上の繰り返しはテンプレート表記です。実際のファイルにはプレースホルダとして個別に配置します -->
+        <a id="btn-1" class="button" href="#link1"><span class="label">現代の国語</span><span class="hint"></span></a>
+        <a id="btn-2" class="button" href="#link2"><span class="label">言語文化</span><span class="hint"></span></a>
+        <a id="btn-3" class="button" href="#link3"><span class="label">数学I</span><span class="hint"></span></a>
+        <a id="btn-4" class="button" href="#link4"><span class="label">数学A</span><span class="hint"></span></a>
+        <a id="btn-5" class="button" href="#link5"><span class="label">英語コミュニケーションI(a)</span><span class="hint"></span></a>
+        <a id="btn-6" class="button" href="#link6"><span class="label">論理・表現I</span><span class="hint"></span></a>
+        <a id="btn-7" class="button" href="#link7"><span class="label">化学基礎</span><span class="hint"></span></a>
+        <a id="btn-8" class="button" href="#link8"><span class="label">物理基礎</span><span class="hint"></span></a>
+        <a id="btn-9" class="button" href="#link9"><span class="label">公共</span><span class="hint"></span></a>
+        <a id="btn-10" class="button" href="#link10"><span class="label">フランス語I</span><span class="hint"></span></a>
+        <a id="btn-11" class="button" href="#link11"><span class="label">保健</span><span class="hint"></span></a>
+        <a id="btn-12" class="button" href="#link12"><span class="label">家庭基礎</span><span class="hint"></span></a>
+        <a id="btn-13" class="button" href="#link13"><span class="label">情報I</span><span class="hint"></span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div>© 2026 Haruki Usui</div>
+  </footer>
+
+  <script>
+    // 使い方: 下の links オブジェクトに各ボタンの URL を割り当てると自動で href に設定されます。
+    // 例: links['btn-1'] = '/attendance.html'
+    (function(){
+      const links = {
+        // 'btn-1': '/attendance.html',
+        // 'btn-2': '/grades.html',
+      };
+      Object.keys(links).forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.setAttribute('href', links[id]);
+      });
+    })();
+
+    // 課題を Google スプレッドシートから取得する例（公開CSVを利用）
+    (function(){
+      // シートの公開CSV URL をここに設定してください（公開 > ウェブに公開 で取得可能）
+      // 例: https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<GID>
+      const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSPziz2Cga9BFytuKmTCQCDwiAmNNYld5oE3GhRXtM70peAQcGoyVx_Giz7ZFtk98Dkj-5ISXMxo4n5/pub?output=csv';
+
+      // CSV を受け取って簡易パーサで配列に変換
+      function parseCSV(text){
+        const rows = [];
+        let current = [];
+        let cur = '';
+        let inQuotes = false;
+        for(let i=0;i<text.length;i++){
+          const ch = text[i];
+          const next = text[i+1];
+          if(ch === '"'){
+            if(inQuotes && next === '"'){ cur += '"'; i++; } else { inQuotes = !inQuotes; }
+            continue;
+          }
+          if(ch === ',' && !inQuotes){ current.push(cur); cur = ''; continue; }
+          if((ch === '\n' || ch === '\r') && !inQuotes){
+            if(ch === '\r' && next === '\n'){ /* skip pair */ }
+            current.push(cur); cur = ''; if(current.length>1 || current[0] !== '') rows.push(current); current = []; continue;
+          }
+          cur += ch;
+        }
+        // 最後の行
+        if(cur !== '' || current.length>0){ current.push(cur); rows.push(current); }
+        return rows;
+      }
+
+      function renderAssignments(items){
+        const aRoot = document.getElementById('assignments');
+        if(!aRoot) return;
+        aRoot.innerHTML = '';
+        if(!items || items.length === 0){
+          aRoot.innerHTML = '<li class="list-item"><div class="muted">課題が見つかりません</div></li>';
+          return;
+        }
+        items.forEach(it=>{
+          const li = document.createElement('li'); li.className='list-item';
+          const title = escapeHtml(it.title || '（無題）');
+          const due = escapeHtml(it.due || '期限なし');
+          const href = it.href || '#';
+          li.innerHTML = `<div><a href="${href}">${title}</a><div class="small muted">提出：${due}</div></div><div class="small muted">優先度: 中</div>`;
+          aRoot.appendChild(li);
+        });
+      }
+
+      function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+      async function fetchFromSheetCsv(url){
+        try{
+          const res = await fetch(url);
+          if(!res.ok) throw new Error('fetch failed');
+          const text = await res.text();
+          const rows = parseCSV(text);
+          // ヘッダ行を除く（1行目がヘッダで、データは2行目以降）
+          const dataRows = rows.slice(1);
+          const items = dataRows.map(r => ({ title: r[0] || '', subject: r[1] || '', due: r[2] || '', href: '#' }));
+          return items;
+        }catch(err){ console.warn('Sheet fetch error', err); return null; }
+      }
+
+      // 初期サンプル（フォールバック）
+      const sample = [
+        {title:'レポート：現代の国語', due:'2026-06-15', href:'#'},
+        {title:'演習課題：数学I', due:'2026-06-18', href:'#'},
+        {title:'実験レポート：化学基礎', due:'2026-06-20', href:'#'},
+      ];
+
+      (async function(){
+        if(SHEET_CSV_URL){
+          const items = await fetchFromSheetCsv(SHEET_CSV_URL);
+          if(items && items.length>0){ renderAssignments(items); return; }
+        }
+        // フェッチできない場合はサンプルを表示
+        renderAssignments(sample);
+      })();
+    })();
+  </script>
+</body>
+</html>
