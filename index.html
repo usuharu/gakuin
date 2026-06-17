@@ -97,7 +97,9 @@
       box-shadow:0 1px 2px rgba(16,24,40,0.04);
       border:1px solid rgba(15,23,42,0.04);
     }
-    .calendar{min-height:300px;display:flex;flex-direction:column}
+  .calendar{min-height:300px;display:flex;flex-direction:column}
+  /* カレンダー iframe をレスポンシブにする */
+  .calendar iframe{width:100%;height:420px;border:0;display:block}
     .card h3{margin:0 0 8px 0;font-size:1rem}
     .list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
     .list-item{display:flex;justify-content:space-between;align-items:flex-start;padding:8px;border-radius:6px}
@@ -130,6 +132,33 @@
     }
     .exam-table thead th{background:#f3f6fb;font-weight:700}
     .exam-note{color:var(--muted);font-size:0.9rem;margin-top:8px}
+    /* レスポンシブフォントと要素の調整
+       注意: ルート(html)のフォントサイズはブラウザ/ユーザー設定に基づく `100%` にして
+       ユーザーがフォントサイズを調整できるようにします。 */
+    html{font-size:100%; -webkit-text-size-adjust:100%; -moz-text-size-adjust:100%; -ms-text-size-adjust:100%;}
+    @media (max-width:1200px){
+      main{padding:20px}
+      .full-width-section{padding:18px}
+    }
+    @media (max-width:900px){
+      main{padding:18px}
+      .grid a.button{padding:0.9rem 0.6rem;min-height:56px;font-size:0.98rem}
+      .calendar{min-height:220px}
+      .calendar iframe{height:300px}
+      .exam-table th,.exam-table td{padding:9px}
+    }
+    @media (max-width:520px){
+      main{padding:12px}
+      .grid{gap:12px}
+      .grid a.button{padding:0.7rem 0.5rem;min-height:48px;font-size:0.95rem}
+      header{padding:10px 14px}
+      .card{padding:10px}
+      .card h3{font-size:0.95rem}
+      .exam-table th,.exam-table td{padding:8px;font-size:0.92rem}
+      .full-width-section{padding:12px 10px}
+      .calendar{min-height:180px}
+      .calendar iframe{height:220px}
+    }
   </style>
 </head>
 <body>
@@ -201,7 +230,7 @@
         <div class="waseda" style="grid-column:1 / -1; font-size:0.9rem; color:var(--muted); margin-top:8px;"><h1>早稲田大学 各種サービス</h1></div>
         <a id="btn-101" class="button" href="https://wsdmoodle.waseda.jp"><span class="label">Waseda Moodle</span><span class="hint"></span></a>
         <a id="btn-102" class="button" href="https://my.waseda.jp"><span class="label">MyWaseda</span><span class="hint"></span></a>
-        <div class="waseda" style="grid-column:1 / -1; font-size:0.9rem; color:var(--muted); margin-top:8px;"><h1>有志による学習支援</h1></div>
+        <div class="waseda" style="grid-column:1 / -1; font-size:0.9rem; color:var(--muted); margin-top:8px;"><h1>外部サイト</h1></div>
         <a id="btn-201" class="button" href="https://anaberu.f5.si/notes/duo3.0/"><span class="label">AnabeRu</span><span class="hint"></span></a>
         <div class="subject" style="grid-column:1 / -1; font-size:0.9rem; color:var(--muted); margin-top:8px;"><h1>NotebookLM</h1></div>
         <!-- 上の繰り返しはテンプレート表記です。実際のファイルにはプレースホルダとして個別に配置します -->
@@ -211,7 +240,7 @@
         <a id="btn-4" class="button" href="https://notebooklm.google.com/notebook/defdace8-4239-4c6e-901e-782860d5a995"><span class="label">数学A</span><span class="hint"></span></a>
         <a id="btn-5" class="button" href="./communication_I_a.html"><span class="label">英語コミュニケーションI(a)</span><span class="hint"></span></a>
         <a id="btn-6" class="button" href="#link6"><span class="label">論理・表現I</span><span class="hint"></span></a>
-        <a id="btn-7" class="button" href="#link7"><span class="label">化学基礎</span><span class="hint"></span></a>
+        <a id="btn-7" class="button" href="https://notebooklm.google.com/notebook/a6278849-5132-4b3e-9e20-c967714904fe"><span class="label">化学基礎</span><span class="hint"></span></a>
         <a id="btn-8" class="button" href="https://notebooklm.google.com/notebook/b989c8d5-445c-480f-8575-2ea48a98a499"><span class="label">物理基礎</span><span class="hint"></span></a>
         <a id="btn-9" class="button" href="https://notebooklm.google.com/notebook/97933d54-078f-439c-91e3-2bdc106a3415"><span class="label">公共</span><span class="hint"></span></a>
         <a id="btn-10" class="button" href="#link10"><span class="label">フランス語I</span><span class="hint"></span></a>
