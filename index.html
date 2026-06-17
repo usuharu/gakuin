@@ -208,7 +208,6 @@
         <h1>試験情報</h1>
         <h2 id="exam-title" style="margin-top:0;margin-bottom:6px">1学期期末考査 <span style="color:#dc2626;font-size:0.85rem;margin-left:8px">重要!</span></h2>
         <div class="exam-controls">
-          <div class="small muted">この表は Google スプレッドシートの公開CSVから自動で読み込みます。</div>
         </div>
         <div style="overflow:auto">
           <table id="exam-table" class="exam-table" aria-describedby="exam-desc">
@@ -216,11 +215,12 @@
               <tr><th>教科</th><th>範囲</th><th>日時</th></tr>
             </thead>
             <tbody>
-              <tr><td colspan="3" class="muted small">データがありません。公開された Google スプレッドシートから読み込まれます。</td></tr>
+              <tr><td>化学基礎</td><td><a href="./chemistry.pdf">化学基礎_試験範囲</a></td><td>7/2 1限</td></tr>
+              <tr><td>物理基礎</td><td><a href="./physics.pdf">物理基礎_試験範囲</a></td><td>7/8 2限</td></tr>
+              <tr><td>公共</td><td>授業でやったところ</td><td>7/3 1限</td></tr>
             </tbody>
           </table>
         </div>
-        <div id="exam-desc" class="exam-note">CSVの1行目はヘッダとして扱います。日付は表示のみ（ソートやフォーマットは追加実装可能）。</div>
       </div>
     </section>
 
@@ -383,44 +383,7 @@
       })();
     })();
 
-    // 試験予定の CSV 読み込み / 貼り付け / クリア機能
-    (function(){
-  // ここに公開CSVのURLを入れるとページ読み込み時に自動で読み込みます
-  // 例: https://docs.google.com/spreadsheets/d/<SHEET_ID>/export?format=csv&gid=<GID>
-  const SHEET_EXAM_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTJEOOoUJ8G7tb5smJ0ec807cWlBKxR87qNmjmzcNwbQRnHdyYNjYABBNygW7WUHJBaQHwctKgALyrq/pub?output=csv';
-
-  const table = document.getElementById('exam-table');
-
-      function populateExamTable(rows){
-        const tbody = table.querySelector('tbody');
-        tbody.innerHTML = '';
-        if(!rows || rows.length === 0){
-          tbody.innerHTML = '<tr><td colspan="3" class="muted small">データがありません。公開された Google スプレッドシートから読み込まれます。</td></tr>';
-          return;
-        }
-        rows.forEach(r => {
-          const tr = document.createElement('tr');
-          const cols = [r[0]||'', r[1]||'', r[2]||''];
-          tr.innerHTML = `<td>${escapeHtml(cols[0])}</td><td>${escapeHtml(cols[1])}</td><td>${escapeHtml(cols[2])}</td>`;
-          tbody.appendChild(tr);
-        });
-      }
-
-      // ページ読み込み時に公開CSVがあれば自動でフェッチして表示
-      (async function(){
-        if(SHEET_EXAM_CSV_URL){
-          try{
-            const res = await fetch(SHEET_EXAM_CSV_URL);
-            if(res.ok){
-              const text = await res.text();
-              const rows = parseCSV(text);
-              const data = rows.slice(1);
-              if(data && data.length) populateExamTable(data);
-            }
-          }catch(err){ console.warn('Exam sheet fetch failed', err); }
-        }
-      })();
-    })();
+    // 試験予定は静的な表としてページに埋め込まれています。
   </script>
 </body>
 </html>
