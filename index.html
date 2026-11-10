@@ -42,7 +42,7 @@
 
     .grid{
       display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
+      grid-template-columns:repeat(3,1fr);
       gap:16px;
     }
     /* 3列 x 5行 のボタン配置（合計15個） */
@@ -76,16 +76,20 @@
       font-size:0.9rem;
     }
 
+    /* レスポンシブ */
+    @media (max-width:900px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:520px){
+      .grid{grid-template-columns:repeat(1,1fr)}
+    }
     /* 上部の予定表 / 課題 / お知らせ用スタイル */
     .top-area{
       display:grid;
-      grid-template-columns:minmax(0,2fr) minmax(0,1fr);
+      grid-template-columns:2fr 1fr;
       gap:16px;
       margin-bottom:20px;
     }
-    .calendar-stack{display:flex;flex-direction:column;gap:16px;min-width:0}
-    .top-area > *, .grid > *, .list-item > div{min-width:0}
-    .grid a.button .label, .list-item a{overflow-wrap:anywhere}
     .card{
       background:var(--card);
       border-radius:10px;
@@ -102,6 +106,9 @@
     .list-item a{color:var(--accent);text-decoration:none;font-weight:600}
     .muted{color:var(--muted);font-size:0.9rem}
     .small{font-size:0.85rem;color:var(--muted)}
+    @media (max-width:900px){
+      .top-area{grid-template-columns:1fr}
+    }
     /* 全幅セクション（コンテナ外へ横いっぱいに広げる） */
     .full-width-section{
       width:100vw;
@@ -129,18 +136,18 @@
        注意: ルート(html)のフォントサイズはブラウザ/ユーザー設定に基づく `100%` にして
        ユーザーがフォントサイズを調整できるようにします。 */
     html{font-size:100%; -webkit-text-size-adjust:100%; -moz-text-size-adjust:100%; -ms-text-size-adjust:100%;}
-    @media (max-width:1024px){
-      .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .top-area{grid-template-columns:1fr}
+    @media (max-width:1200px){
+      main{padding:20px}
       .full-width-section{padding:18px}
+    }
+    @media (max-width:900px){
       main{padding:18px}
       .grid a.button{padding:0.9rem 0.6rem;min-height:56px;font-size:0.98rem}
       .calendar{min-height:220px}
       .calendar iframe{height:300px}
       .exam-table th,.exam-table td{padding:9px}
     }
-    @media (max-width:768px){
-      .grid{grid-template-columns:minmax(0,1fr)}
+    @media (max-width:520px){
       main{padding:12px}
       .grid{gap:12px}
       .grid a.button{padding:0.7rem 0.5rem;min-height:48px;font-size:0.95rem}
@@ -151,12 +158,6 @@
       .full-width-section{padding:12px 10px}
       .calendar{min-height:180px}
       .calendar iframe{height:220px}
-    }
-    @media (max-width:320px){
-      main{padding:8px}
-      header{padding:10px 8px}
-      .card{padding:8px}
-      .full-width-section{padding:12px 8px}
     }
   </style>
 </head>
@@ -174,22 +175,12 @@
   <main>
     <!-- 上部: 予定表（左）、右側に課題リストとお知らせ -->
     <section class="top-area" aria-label="予定表と重要情報">
-      <div class="calendar-stack">
       <div class="card calendar" aria-labelledby="calendar-title">
         <h3 id="calendar-title">予定表</h3>
         <!-- カレンダー埋め込み -->
         <div id="calendar-embed" style="flex:1;margin-top:12px;border-radius:8px;background:linear-gradient(180deg,#fbfbff,#f5f7fb);overflow:hidden;">
         <iframe src="https://calendar.google.com/calendar/embed?src=2b17a3af0a70d2a419d0b73635ff43e06421b9a0f0c1a948cb8f865c94bd3ac8%40group.calendar.google.com&ctz=Asia%2FTokyo" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
         </div>
-      </div>
-
-      <div class="card calendar" aria-labelledby="timetable-title">
-        <h3 id="timetable-title">時間割</h3>
-        <!-- カレンダー埋め込み -->
-        <div id="timetable-embed" style="flex:1;margin-top:12px;border-radius:8px;background:linear-gradient(180deg,#fbfbff,#f5f7fb);overflow:hidden;">
-        <iframe title="時間割" src="https://calendar.google.com/calendar/embed?src=1efaa85bf49edf566e922bff0fd3bffdc6d2137f1d68afbaee9148137566076f%40group.calendar.google.com&ctz=Asia%2FTokyo" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-        </div>
-      </div>
       </div>
 
       <div style="display:flex;flex-direction:column;gap:12px;">
@@ -217,7 +208,7 @@
       <div style="max-width:1100px;margin:0 auto;">
         <h1>試験情報</h1>
         <h2 id="exam-title" style="margin-top:0;margin-bottom:6px">2学期期末考査 <span style="color:#dc2626;font-size:0.85rem;margin-left:8px">重要!</span></h2>
-        <p>※試験範囲のPDFのパスワードは教員の名字。</p>
+        <p>※試験範囲のPDFのパスワードは担当教員の名字（半角英字・小文字）。</p>
         <div class="exam-controls">
         </div>
         <div style="overflow:auto">
@@ -251,14 +242,14 @@
         <a id="btn-2" class="button" href="#link2"><span class="label">言語文化</span><span class="hint"></span></a>
         <a id="btn-3" class="button" href="#link3"><span class="label">数学I</span><span class="hint"></span></a>
         <a id="btn-4" class="button" href="https://notebook.google.com/notebook/005af8b7-14fe-4e11-92d1-c9cb8d131999"><span class="label">数学A</span><span class="hint"></span></a>
-        <a id="btn-5" class="button" href="./communication_I_a.html"><span class="label">Violence</span><span class="hint"></span></a>
-        <a id="btn-6" class="button" href="https://notebook.google.com/notebook/7b490cee-9604-4681-a717-d2797ce2d3be"><span class="label">粛々と左手の小指で回す論理・表現Ⅰ</span><span class="hint"></span></a>
-        <a id="btn-7" class="button" href="https://notebook.google.com/notebook/38a7df09-0ad8-4458-805f-382018ea6600"><span class="label">え゛ー</span><span class="hint"></span></a>
+        <a id="btn-5" class="button" href="./communication_I_a.html"><span class="label">英語コミュニケーションⅠ(a)</span><span class="hint"></span></a>
+        <a id="btn-6" class="button" href="https://notebook.google.com/notebook/7b490cee-9604-4681-a717-d2797ce2d3be"><span class="label">論理・表現I</span><span class="hint"></span></a>
+        <a id="btn-7" class="button" href="https://notebook.google.com/notebook/38a7df09-0ad8-4458-805f-382018ea6600"><span class="label">化学基礎</span><span class="hint"></span></a>
         <a id="btn-8" class="button" href="https://notebook.google.com/notebook/a7d4dd23-8194-44aa-ac12-7ced375b3946"><span class="label">物理基礎</span><span class="hint"></span></a>
-        <a id="btn-9" class="button" href="https://notebook.google.com/notebook/724e7dc2-dd55-4376-b3f8-e16e5d537440"><span class="label">全人類バトルロイヤル in仲島陽一の庭</span><span class="hint"></span></a>
-        <a id="btn-10" class="button" href="https://notebook.google.com/notebook/1e0d1469-71da-4995-a299-3c0884e7b96b"><span class="label">みなさんいいですか。繰り返しになりますが、これは暴言と雑談の授業ではありません。</span><span class="hint"></span></a>
+        <a id="btn-9" class="button" href="https://notebook.google.com/notebook/724e7dc2-dd55-4376-b3f8-e16e5d537440"><span class="label">公共</span><span class="hint"></span></a>
+        <a id="btn-10" class="button" href="https://notebook.google.com/notebook/1e0d1469-71da-4995-a299-3c0884e7b96b"><span class="label">フランス語I</span><span class="hint"></span></a>
         <a id="btn-11" class="button" href="#link11"><span class="label">保健</span><span class="hint"></span></a>
-        <a id="btn-12" class="button" href="https://notebook.google.com/notebook/b5c7156d-0fe6-4241-ab5e-7b77197f691e"><span class="label">家庭基礎（笑）</span><span class="hint"></span></a>
+        <a id="btn-12" class="button" href="https://notebook.google.com/notebook/b5c7156d-0fe6-4241-ab5e-7b77197f691e"><span class="label">家庭基礎</span><span class="hint"></span></a>
         <a id="btn-13" class="button" href="#link13"><span class="label">情報I</span><span class="hint"></span></a>
         <a id="btn-14" class="button" href="#link14"><span class="label">音楽</span><span class="hint"></span></a>
       </div>
