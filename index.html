@@ -362,7 +362,7 @@
           const href = escapeHtml(/^https?:\/\//i.test(rawHref) ? rawHref : '#');
           // 科目がある場合は科目を先に表示（例: 科目 ・ 提出：日付）
           const meta = subject ? `${subject} ・ 日付：${due}` : `日付：${due}`;
-          li.innerHTML = `<div><a href="${href}">${title}</a><div class="small muted">${meta}</div></div>`;
+          li.innerHTML = `<div><a href="${href}"${href !== '#' ? ' target="_blank" rel="noopener noreferrer"' : ''}>${title}</a><div class="small muted">${meta}</div></div>`;
           aRoot.appendChild(li);
         });
       }
