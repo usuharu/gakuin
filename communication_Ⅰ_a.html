@@ -1,12 +1,92 @@
-<h1>Issues That Matter</h1><br>
-<h2>1学期</h2><br>
-<a href="https://notebooklm.google.com/notebook/57ad6606-9363-4b39-b5d7-bbca3085b743">Unit 13 Blowing Whistles</a><br>
-<h2>2学期</h2><br>
-<a href="https://notebook.google.com/notebook/f3d6ca1c-e41f-49fc-a28c-e9a0aa82ee84">Unit 14 When It Is Right to Break the Law</a><br>
-<h1>LANDMARK</h1><br>
-<h2>1学期</h2><br>
-<a href="https://notebooklm.google.com/notebook/db73be40-4ecb-4010-9f9a-64b5a0a85611">Lesson 3 The Moon and Our Culture</a><br>
-<h2>2学期</h2><br>
-<h1>その他</h1><br>
-<h2>2学期</h2><br>
-<a href="https://notebook.google.com/notebook/5e77c0eb-9ae5-4017-81f3-0505ba821b0d">The Twitching of America</a>
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>英語コミュニケーションⅠ(a)</title>
+  <style>
+    :root{
+      --bg:#f7f9fc;
+      --card:#ffffff;
+      --accent:#2563eb;
+      --muted:#6b7280;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", sans-serif;
+      background:var(--bg);
+      color:#111827;
+      display:flex;
+      min-height:100vh;
+      flex-direction:column;
+    }
+    main{
+      flex:1 0 auto;
+      padding:24px;
+      max-width:1100px;
+      margin:0 auto;
+      width:100%;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:16px;
+    }
+    .grid a.button{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px 12px;
+      background:var(--card);
+      border-radius:8px;
+      text-decoration:none;
+      color:inherit;
+      box-shadow:0 1px 2px rgba(16,24,40,0.04), 0 1px 0 rgba(16,24,40,0.02) inset;
+      border:1px solid rgba(15,23,42,0.04);
+      font-weight:600;
+      font-size:1rem;
+      min-height:64px;
+      transition:transform .08s ease, box-shadow .08s ease;
+    }
+    .grid a.button:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(37,99,235,0.12)}
+    .grid a.button:active{transform:translateY(-1px)}
+    .grid a.button .label{display:block}
+    .grid a.button .hint{display:block;color:var(--muted);font-weight:500;font-size:0.85rem}
+
+    .grid > *{min-width:0}
+    .grid a.button .label{overflow-wrap:anywhere}
+    html{font-size:100%;-webkit-text-size-adjust:100%}
+    @media (max-width:1024px){
+      .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      main{padding:18px}
+      .grid a.button{padding:0.9rem 0.6rem;min-height:56px;font-size:0.98rem}
+    }
+    @media (max-width:768px){
+      .grid{grid-template-columns:minmax(0,1fr);gap:12px}
+      main{padding:12px}
+      .grid a.button{padding:0.7rem 0.5rem;min-height:48px;font-size:0.95rem}
+    }
+    @media (max-width:320px){
+      main{padding:8px}
+    }
+  </style>
+</head>
+<body>
+  <main>
+<h1>Issues That Matter</h1>
+<h2>1学期</h2>
+<div class="grid"><a class="button" href="https://notebooklm.google.com/notebook/57ad6606-9363-4b39-b5d7-bbca3085b743"><span class="label">Unit 13 Blowing Whistles</span></a></div>
+<h2>2学期</h2>
+<div class="grid"><a class="button" href="https://notebook.google.com/notebook/f3d6ca1c-e41f-49fc-a28c-e9a0aa82ee84"><span class="label">Unit 14 When It Is Right to Break the Law</span></a></div>
+<h1>LANDMARK</h1>
+<h2>1学期</h2>
+<div class="grid"><a class="button" href="https://notebooklm.google.com/notebook/db73be40-4ecb-4010-9f9a-64b5a0a85611"><span class="label">Lesson 3 The Moon and Our Culture</span></a></div>
+<h2>2学期</h2>
+<h1>その他</h1>
+<h2>2学期</h2>
+<div class="grid"><a class="button" href="https://notebook.google.com/notebook/5e77c0eb-9ae5-4017-81f3-0505ba821b0d"><span class="label">The Twitching of America</span></a></div>
+  </main>
+</body>
+</html>
