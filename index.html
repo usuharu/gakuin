@@ -357,7 +357,8 @@
           const title = escapeHtml(it.title);
           const subject = it.subject ? escapeHtml(it.subject) : null;
           const due = escapeHtml(it.due || '期限なし');
-          const href = it.href || '#';
+          const rawHref = String(it.href || '').trim();
+          const href = escapeHtml(/^https?:\/\//i.test(rawHref) ? rawHref : '#');
           // 科目がある場合は科目を先に表示（例: 科目 ・ 提出：日付）
           const meta = subject ? `${subject} ・ 日付：${due}` : `日付：${due}`;
           li.innerHTML = `<div><a href="${href}">${title}</a><div class="small muted">${meta}</div></div>`;
@@ -375,7 +376,7 @@
           const rows = parseCSV(text);
           // ヘッダ行を除く（1行目がヘッダで、データは2行目以降）
           const dataRows = rows.slice(1);
-          const items = dataRows.map(r => ({ title: r[0] || '', subject: r[1] || '', due: r[2] || '', href: '#' }));
+          const items = dataRows.map(r => ({ title: r[0] || '', subject: r[1] || '', due: r[2] || '', href: (r[3] || '').trim() || '#' }));
           return items;
         }catch(err){ console.warn('Sheet fetch error', err); return null; }
       }
